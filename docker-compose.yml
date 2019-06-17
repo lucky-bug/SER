@@ -14,8 +14,7 @@ services:
     volumes:
       - ./docker/mysql:/var/lib/mysql
     networks:
-      backend:
-        ipv4_address: 10.10.10.10
+      - backend
 
   npm:
     user: 1000:1000
