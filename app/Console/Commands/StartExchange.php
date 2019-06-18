@@ -21,15 +21,21 @@ class StartExchange extends Command
      * @var string
      */
     protected $description = 'Starts stock exchange';
+    /**
+     * @var ExchangePeriodService
+     */
+    private $exchangePeriodService;
 
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param ExchangePeriodService $exchangePeriodService
      */
-    public function __construct()
-    {
+    public function __construct(
+        ExchangePeriodService $exchangePeriodService
+    ) {
         parent::__construct();
+        $this->exchangePeriodService = $exchangePeriodService;
     }
 
     /**
@@ -39,16 +45,12 @@ class StartExchange extends Command
      */
     public function handle()
     {
-        /**
-         * @var ExchangePeriodService $service
-         */
-        $service = App(ExchangePeriodService::class);
         $holding = Holding::all()->last();
 
         if (!$holding) {
             echo "No holdings found. Please create one first using command create:holding.\n";
         } else {
-            $service->startExchange($holding);
+            $this->exchangePeriodService->startExchange($holding);
         }
     }
 }
